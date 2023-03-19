@@ -1,30 +1,67 @@
-function calculateMinCost() {
- const PriorityQueue = require('js-priority-queue');
-
-const pq = new PriorityQueue({
-  comparator: function(a, b) {
-    return a - b;
+class PriorityQueue {
+  constructor() {
+    this.items = [];
   }
-});
 
-// Add elements to the queue
-pq.queue(4);
-pq.queue(2);
-pq.queue(7);
-pq.queue(6);
-pq.queue(9);
+  enqueue(element, priority) {
+    let obj = { element, priority };
+    let added = false;
 
-// Remove elements from the queue and calculate the minimum cost
-let cost = 0;
-while (pq.length > 1) {
-  let a = pq.dequeue();
-  let b = pq.dequeue();
-  let sum = a + b;
-  pq.queue(sum);
-  cost += sum;
+    for (let i = 0; i < this.items.length; i++) {
+      if (obj.priority < this.items[i].priority) {
+        this.items.splice(i, 0, obj);
+        added = true;
+        break;
+      }
+    }
+
+    if (!added) {
+      this.items.push(obj);
+    }
+  }
+
+  dequeue() {
+    if (this.isEmpty()) {
+      return "Underflow";
+    }
+    return this.items.shift();
+  }
+
+  front() {
+    if (this.isEmpty()) {
+      return "No elements in Queue";
+    }
+    return this.items[0];
+  }
+
+  rear() {
+    if (this.isEmpty()) {
+      return "No elements in Queue";
+    }
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty() {
+    return this.items.length == 0;
+  }
+
+  printQueue() {
+    let str = "";
+    for (let i = 0; i < this.items.length; i++) {
+      str += this.items[i].element + " ";
+    }
+    return str;
+  }
 }
 
-console.log(cost); // output: 62
+let priorityQueue = new PriorityQueue();
+priorityQueue.enqueue("A", 1);
+priorityQueue.enqueue("B", 2);
+priorityQueue.enqueue("C", 3);
+priorityQueue.enqueue("D", 2);
 
-  
-}  
+console.log(priorityQueue.printQueue()); // A B D C
+console.log(priorityQueue.front()); // { element: 'A', priority: 1 }
+console.log(priorityQueue.rear()); // { element: 'C', priority: 3 }
+console.log(priorityQueue.dequeue()); // { element: 'A', priority: 1 }
+console.log(priorityQueue.printQueue()); // B D C
