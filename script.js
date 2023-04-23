@@ -1,6 +1,6 @@
 function calculateMinCost() {
-// event.preventDefault();
-  var ans = document.getelement("input").value;
+
+  var ans = document.querySelector("#rope-lengths").value;
   var updated = ans.split(",");
 
   updated.sort(function (a, b) {
