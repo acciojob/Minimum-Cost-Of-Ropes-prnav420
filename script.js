@@ -1,67 +1,24 @@
-class PriorityQueue {
-  constructor() {
-    this.items = [];
+function calculateMinCost(event) {
+  var ans = document.querySelector("input").value;
+  var updated = ans.split(",");
+
+  updated.sort(function (a, b) {
+    return a - b;
+  });
+
+  var cost = 0;
+  while (updated.length > 1) {
+    var res = Number(updated[0]) + Number(updated[1]);
+    updated.push(res);
+    updated.shift();
+    updated.shift();
+
+    cost += res;
+
+    updated.sort(function (a, b) {
+      return a - b;
+    });
   }
 
-  enqueue(element, priority) {
-    let obj = { element, priority };
-    let added = false;
-
-    for (let i = 0; i < this.items.length; i++) {
-      if (obj.priority < this.items[i].priority) {
-        this.items.splice(i, 0, obj);
-        added = true;
-        break;
-      }
-    }
-
-    if (!added) {
-      this.items.push(obj);
-    }
-  }
-
-  dequeue() {
-    if (this.isEmpty()) {
-      return "Underflow";
-    }
-    return this.items.shift();
-  }
-
-  front() {
-    if (this.isEmpty()) {
-      return "No elements in Queue";
-    }
-    return this.items[0];
-  }
-
-  rear() {
-    if (this.isEmpty()) {
-      return "No elements in Queue";
-    }
-    return this.items[this.items.length - 1];
-  }
-
-  isEmpty() {
-    return this.items.length == 0;
-  }
-
-  printQueue() {
-    let str = "";
-    for (let i = 0; i < this.items.length; i++) {
-      str += this.items[i].element + " ";
-    }
-    return str;
-  }
+  document.getElementById("result").textContent = cost;
 }
-
-let priorityQueue = new PriorityQueue();
-priorityQueue.enqueue("A", 1);
-priorityQueue.enqueue("B", 2);
-priorityQueue.enqueue("C", 3);
-priorityQueue.enqueue("D", 2);
-
-console.log(priorityQueue.printQueue()); // A B D C
-console.log(priorityQueue.front()); // { element: 'A', priority: 1 }
-console.log(priorityQueue.rear()); // { element: 'C', priority: 3 }
-console.log(priorityQueue.dequeue()); // { element: 'A', priority: 1 }
-console.log(priorityQueue.printQueue()); // B D C
