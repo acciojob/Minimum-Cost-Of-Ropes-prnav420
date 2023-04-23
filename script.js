@@ -1,5 +1,5 @@
-function calculateMinCost(event) {
-event.preventDefault();
+function calculateMinCost() {
+// event.preventDefault();
   var ans = document.querySelector("input").value;
   var updated = ans.split(",");
 
